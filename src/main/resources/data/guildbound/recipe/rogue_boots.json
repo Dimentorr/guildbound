@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "M M",
+    "S S"
+  ],
+  "key": {
+    "M": {
+      "item": "minecraft:leather"
+    },
+    "S": {
+      "item": "minecraft:flint"
+    }
+  },
+  "result": {
+    "id": "guildbound:rogue_boots",
+    "count": 1
+  }
+}

@@ -1,0 +1,70 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.147'
+}
+
+version = mod_version
+group = 'dev.guildbound'
+base { archivesName = mod_id }
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+// Codec tests use the exact libraries supplied by this Minecraft version.
+sourceSets.test.compileClasspath += sourceSets.main.compileClasspath
+sourceSets.test.runtimeClasspath += sourceSets.main.runtimeClasspath
+sourceSets {
+    smoke {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.runtimeClasspath
+    }
+}
+
+repositories {
+    mavenCentral()
+    exclusiveContent {
+        forRepository { maven { url = 'https://api.modrinth.com/maven' } }
+        filter { includeGroup 'maven.modrinth' }
+    }
+}
+
+neoForge {
+    version = project.neo_version
+    runs {
+        client { client() }
+        server {
+            server()
+            programArgument '--nogui'
+            gameDirectory = project.file('run-server')
+        }
+    }
+    mods {
+        guildbound {
+            sourceSet sourceSets.main
+            if (providers.gradleProperty('combatSmoke').isPresent()) sourceSet sourceSets.smoke
+        }
+    }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    if (providers.gradleProperty('withTerralith').isPresent()) {
+        runtimeOnly 'maven.modrinth:8oi3bsk5:MuJMtPGQ'
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+    options.compilerArgs += ['-Xlint:deprecation']
+}
+tasks.named('test', Test) { useJUnitPlatform() }
+tasks.named('runServer', JavaExec) { standardInput = System.in }
+tasks.named('processResources', ProcessResources) {
+    def metadata = [mod_version: project.mod_version, neo_version: project.neo_version]
+    inputs.properties metadata
+    filesMatching('META-INF/neoforge.mods.toml') { expand metadata }
+}
+tasks.withType(Jar).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "guildbound:golden_dagger",
+    "guildbound:iron_dagger",
+    "guildbound:diamond_dagger",
+    "guildbound:netherite_dagger"
+  ]
+}

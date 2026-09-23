@@ -1,0 +1,7 @@
+{
+  "parent": "guildbound:item/iron_dagger",
+  "textures": {
+    "blade": "minecraft:block/gold_block",
+    "particle": "minecraft:block/gold_block"
+  }
+}

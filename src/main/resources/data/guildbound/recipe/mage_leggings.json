@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "MMM",
+    "MSM",
+    "M M"
+  ],
+  "key": {
+    "M": {
+      "item": "minecraft:leather"
+    },
+    "S": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "result": {
+    "id": "guildbound:mage_leggings",
+    "count": 1
+  }
+}

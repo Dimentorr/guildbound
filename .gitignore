@@ -1,0 +1,10 @@
+.gradle/
+.gradle-user-home/
+build/
+run/
+run-server/
+.idea/
+*.iml
+.vscode/
+logs/
+ТЗ.md
